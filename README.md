@@ -20,6 +20,7 @@ developer.password = <password><securitytoken>
 
 * ant
 * Force.com migration tool
+* an [IDOLOnDemand.com](http://idolondemand.com) API Key
 
 ### Deployment
 
