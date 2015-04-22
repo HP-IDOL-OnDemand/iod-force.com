@@ -1,0 +1,493 @@
+==============================================================================================================
+
+Store Object
+https://www.idolondemand.com/developer/apis/storeobject#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.StoreObjectRequest req = new IDOL.StoreObjectRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/images/faceDetectionExample1.jpg';
+IDOL.StoreObjectResponse resp = api.storeObject(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.reference -->  ' + resp.reference);
+-------------------------------------------------
+// POST request (Attachment input) for "file" request
+IDOLApi api = new IDOLApi();
+IDOL.StoreObjectRequest req = new IDOL.StoreObjectRequest();
+req.source = IDOL.InputSource.file;
+Attachment att = new Attachment();
+att.Name = 'filename.txt';
+att.Body = Blob.valueOf( 'this is file content');
+req.input = att;
+IDOL.StoreObjectResponse resp = api.storeObject(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.reference -->  ' + resp.reference);
+
+==============================================================================================================
+
+Extract Text From Image (OCR Document)
+https://www.idolondemand.com/developer/apis/ocrdocument#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.ExtractTextFromImageRequest req = new IDOL.ExtractTextFromImageRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/documents/hp_q1_2013.pdf';
+IDOL.ExtractTextFromImageResponse resp = api.extractTextFromImage(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.text_block.size() -->  ' + resp.text_block.size());
+for(Integer i=0; i<resp.text_block.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.text_block[' + i + '].text -->  ' + resp.text_block[i].text);
+}
+
+==============================================================================================================
+
+Text Extraction
+https://www.idolondemand.com/developer/apis/extracttext#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.TextExtractionRequest req = new IDOL.TextExtractionRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/documents/IDOLbrochure.pdf';
+IDOL.TextExtractionResponse resp = api.extractText(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.document.size() -->  ' + resp.document.size());
+for(Integer i=0; i<resp.document.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.document[' + i + '].author -->  ' + resp.document[i].author);
+    System.debug(logginglevel.INFO, 'resp.document[' + i + '].app_name -->  ' + resp.document[i].app_name);
+    System.debug(logginglevel.INFO, 'resp.document[' + i + '].content -->  ' + resp.document[i].content);
+}
+
+==============================================================================================================
+
+View Document
+https://www.idolondemand.com/developer/apis/viewdocument#try
+
+// POST request (Attachment input) for "file" request
+IDOLApi api = new IDOLApi();
+IDOL.ViewDocumentRequest req = new IDOL.ViewDocumentRequest();
+req.source = IDOL.InputSource.file;
+Attachment att = new Attachment();
+att.Name = 'filename.txt';
+att.Body = blob.valueOf( 'this is file content');
+att.ContentType = 'text/plain';
+req.input = att;
+IDOL.ViewDocumentResponse resp = api.viewDocument(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.document -->  ' + resp.document);
+
+==============================================================================================================
+
+Barcode Recognition
+https://www.idolondemand.com/developer/apis/recognizebarcodes#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.BarcodeRecognitionRequest req = new IDOL.BarcodeRecognitionRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/barcode/bc9.jpg';
+IDOL.BarcodeRecognitionResponse resp = api.recognizeBarcodes(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.barcode.size() -->  ' + resp.barcode.size());
+for(Integer i=0; i<resp.barcode.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.barcode[' + i + '].text -->  ' + resp.barcode[i].text);
+    System.debug(logginglevel.INFO, 'resp.barcode[' + i + '].barcode_type -->  ' + resp.barcode[i].barcode_type);
+}
+-------------------------------------------------
+// GET request (String input) for "reference" request
+IDOLApi api = new IDOLApi();
+// store the image and get the reference
+IDOL.StoreObjectRequest storeReq = new IDOL.StoreObjectRequest();
+storeReq.source = IDOL.InputSource.url;
+storeReq.input = 'https://www.idolondemand.com/sample-content/barcode/bc9.jpg';
+IDOL.StoreObjectResponse storeResp = api.storeObject(storeReq);
+string fileRef = storeResp.reference;
+// perform the request with the reference
+IDOL.BarcodeRecognitionRequest req = new IDOL.BarcodeRecognitionRequest();
+req.source = IDOL.InputSource.reference;
+req.input = fileRef;
+IDOL.BarcodeRecognitionResponse resp = api.recognizeBarcodes(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.barcode.size() -->  ' + resp.barcode.size());
+for(Integer i=0; i<resp.barcode.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.barcode[' + i + '].text -->  ' + resp.barcode[i].text);
+    System.debug(logginglevel.INFO, 'resp.barcode[' + i + '].barcode_type -->  ' + resp.barcode[i].barcode_type);
+}
+        
+==============================================================================================================
+
+Image Recognition
+https://www.idolondemand.com/developer/apis/recognizeimages#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.ImageRecognitionRequest req = new IDOL.ImageRecognitionRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/images/aviva.jpg';
+IDOL.ImageRecognitionResponse resp = api.recognizeImage(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.image_object.size() -->  ' + resp.image_object.size());
+for(Integer i=0; i<resp.image_object.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.image_object[' + i + '].name -->  ' + resp.image_object[i].name);
+}
+
+==============================================================================================================
+
+Expand Terms
+https://www.idolondemand.com/developer/apis/expandterms#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.ExpandTermsRequest req = new IDOL.ExpandTermsRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'probabilit*';
+req.expansion = IDOL.ExpandTermsExpansionType.wild;
+IDOL.ExpandTermsResponse resp = api.expandTerms(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.terms.size() -->  ' + resp.terms.size());
+for(Integer i=0; i<resp.terms.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.terms[' + i + '].term -->  ' + resp.terms[i].term);
+}
+
+==============================================================================================================
+
+Face Detection
+https://www.idolondemand.com/developer/apis/detectfaces#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.FaceDetectionRequest req = new IDOL.FaceDetectionRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/images/faceDetectionExample1.jpg';
+IDOL.FaceDetectionResponse resp = api.detectFaces(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.face.size() -->  ' + resp.face.size());
+for(Integer i=0; i<resp.face.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.face[' + i + '].left -->  ' + resp.face[i].left);
+    System.debug(logginglevel.INFO, 'resp.face[' + i + '].top -->  ' + resp.face[i].top);
+    System.debug(logginglevel.INFO, 'resp.face[' + i + '].width -->  ' + resp.face[i].width);
+    System.debug(logginglevel.INFO, 'resp.face[' + i + '].height -->  ' + resp.face[i].height);
+}
+
+==============================================================================================================
+
+Language Identification
+https://www.idolondemand.com/developer/apis/identifylanguage#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.LanguageIdentificationRequest req = new IDOL.LanguageIdentificationRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'I am really annoyed with your poor performance recently';
+IDOL.LanguageIdentificationResponse resp = api.identifyLanguage(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.language -->  ' + resp.language);
+System.debug(logginglevel.INFO, 'resp.encoding -->  ' + resp.encoding);
+
+==============================================================================================================
+
+Sentiment Analysis
+https://www.idolondemand.com/developer/apis/analyzesentiment#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.SentimentAnalysisRequest req = new IDOL.SentimentAnalysisRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'I am really annoyed with your poor performance recently';
+req.language = IDOL.LanguageCode.eng;
+IDOL.SentimentAnalysisResponse resp = api.analyzeSentiment(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.aggregate.sentiment -->  ' + resp.aggregate.sentiment);
+System.debug(logginglevel.INFO, 'resp.aggregate.score -->  ' + resp.aggregate.score);
+System.debug(logginglevel.INFO, 'resp.positive.size() -->  ' + resp.positive.size());
+for(Integer i=0; i<resp.positive.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.positive[' + i + '].original_text -->  ' + resp.positive[i].original_text);
+    System.debug(logginglevel.INFO, 'resp.positive[' + i + '].sentiment -->  ' + resp.positive[i].sentiment);
+    System.debug(logginglevel.INFO, 'resp.positive[' + i + '].score -->  ' + resp.positive[i].score);
+}
+System.debug(logginglevel.INFO, 'resp.negative.size() -->  ' + resp.negative.size());
+for(Integer i=0; i<resp.negative.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.negative[' + i + '].original_text -->  ' + resp.negative[i].original_text);
+    System.debug(logginglevel.INFO, 'resp.negative[' + i + '].sentiment -->  ' + resp.negative[i].sentiment);
+    System.debug(logginglevel.INFO, 'resp.negative[' + i + '].score -->  ' + resp.negative[i].score);
+}
+
+==============================================================================================================
+
+Entity Extraction
+https://www.idolondemand.com/developer/apis/extractentities#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.EntityExtractionRequest req = new IDOL.EntityExtractionRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'President Barack Obama paid tribute to anti-apartheid hero Nelson Mandela';
+req.entity_type = 'people_eng';
+IDOL.EntityExtractionResponse resp = api.extractEntities(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.entities.size() -->  ' + resp.entities.size());
+for(Integer i=0; i<resp.entities.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].original_text -->  ' + resp.entities[i].original_text);
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].type -->  ' + resp.entities[i].type);
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].score -->  ' + resp.entities[i].score);
+}
+
+==============================================================================================================
+
+Concept Extraction
+https://www.idolondemand.com/developer/apis/extractconcepts#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.ExtractConceptstRequest req = new IDOL.ExtractConceptstRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'Select and provide one of the following parameters for the input source';
+IDOL.ExtractConceptsResponse resp = api.extractConcepts(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.concepts.size() -->  ' + resp.concepts.size());
+for(Integer i=0; i<resp.concepts.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.concepts[' + i + '].concept -->  ' + resp.concepts[i].concept);
+    System.debug(logginglevel.INFO, 'resp.concepts[' + i + '].occurrences -->  ' + resp.concepts[i].occurrences);
+}
+
+==============================================================================================================
+
+Highlight Text
+https://www.idolondemand.com/developer/apis/highlighttext#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.HighlightTextRequest req = new IDOL.HighlightTextRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'we are good friends and everyone likes us';
+req.highlight_expression = 'friend';
+IDOL.HighlightTextResponse resp = api.highlightText(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.text -->  ' + resp.text);
+
+==============================================================================================================
+
+Text Tokenization
+https://www.idolondemand.com/developer/apis/tokenizetext#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.TextTokenizationRequest req = new IDOL.TextTokenizationRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'probability theory';
+IDOL.TextTokenizationResponse resp = api.tokenizeText(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.terms.size() -->  ' + resp.terms.size());
+for(Integer i=0; i<resp.terms.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.terms[' + i + '].term -->  ' + resp.terms[i].term);
+    System.debug(logginglevel.INFO, 'resp.terms[' + i + '].weight -->  ' + resp.terms[i].weight);
+}
+
+==============================================================================================================
+
+Find Similar
+https://www.idolondemand.com/developer/apis/findsimilar#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.FindSimilarRequest req = new IDOL.FindSimilarRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'cat';
+req.absolute_max_results = 4;
+req.indexes = 'wiki_eng';
+IDOL.FindSimilarResponse resp = api.findSimilar(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.documents.size() -->  ' + resp.documents.size());
+for(Integer i=0; i<resp.documents.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].reference -->  ' + resp.documents[i].reference);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].weight -->  ' + resp.documents[i].weight);
+}
+-------------------------------------------------
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.FindSimilarRequest req = new IDOL.FindSimilarRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'http://www.textfiles.com/fun/ai.txt';
+req.absolute_max_results = 4;
+req.indexes = 'wiki_eng';
+IDOL.FindSimilarResponse resp = api.findSimilar(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.documents.size() -->  ' + resp.documents.size());
+for(Integer i=0; i<resp.documents.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].reference -->  ' + resp.documents[i].reference);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].weight -->  ' + resp.documents[i].weight);
+}
+-------------------------------------------------
+// POST request (Attachment input) for "file" request
+// Attach a TXT file (i.e. "dog.txt") containing some text (i.e. "dog") in Salesforce for an Account, and use the ID below
+Attachment att = [select id, name, body, contentType from attachment where id = '00P24000000Rxvq'];
+IDOLApi api = new IDOLApi();
+IDOL.FindSimilarRequest req = new IDOL.FindSimilarRequest();
+req.source = IDOL.InputSource.file;
+req.input = att;
+req.absolute_max_results = 4;
+req.indexes = 'wiki_eng';
+IDOL.FindSimilarResponse resp = api.findSimilar(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.documents.size() -->  ' + resp.documents.size());
+for(Integer i=0; i<resp.documents.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].reference -->  ' + resp.documents[i].reference);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].weight -->  ' + resp.documents[i].weight);
+}
+-------------------------------------------------
+// POST request (Attachment input) for "file" request
+// Attachment entity is created in code
+IDOLApi api = new IDOLApi();
+IDOL.FindSimilarRequest req = new IDOL.FindSimilarRequest();
+req.source = IDOL.InputSource.file;
+Attachment att = new Attachment();
+att.Name = 'dog.txt';
+att.Body = Blob.valueOf('dog');
+req.input = att;
+req.absolute_max_results = 4;
+req.indexes = 'wiki_eng';
+IDOL.FindSimilarResponse resp = api.findSimilar(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.documents.size() -->  ' + resp.documents.size());
+for(Integer i=0; i<resp.documents.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].reference -->  ' + resp.documents[i].reference);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].weight -->  ' + resp.documents[i].weight);
+}
+
+==============================================================================================================
+
+Find Related Concepts
+https://www.idolondemand.com/developer/apis/findrelatedconcepts#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.FindRelatedConceptsRequest req = new IDOL.FindRelatedConceptsRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'Autonomy';
+req.max_results = 2;
+req.index = 'wiki_eng';
+IDOL.FindRelatedConceptsResponse resp = api.findRelatedConcepts(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.entities.size() -->  ' + resp.entities.size());
+for(Integer i=0; i<resp.entities.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].text -->  ' + resp.entities[i].text);
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].docs_with_phrase -->  ' + resp.entities[i].docs_with_phrase);
+    System.debug(logginglevel.INFO, 'resp.entities[' + i + '].occurrences -->  ' + resp.entities[i].occurrences);
+}
+
+==============================================================================================================
+
+Query Text Index
+https://www.idolondemand.com/developer/apis/querytextindex#try
+
+// POST request (String input) for "text" request
+IDOLApi api = new IDOLApi();
+IDOL.QueryTextIndexRequest req = new IDOL.QueryTextIndexRequest();
+req.source = IDOL.InputSource.text;
+req.input = 'government';
+req.absolute_max_results = 2;
+req.indexes = 'wiki_eng';
+IDOL.QueryTextIndexResponse resp = api.queryTextIndex(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.documents.size() -->  ' + resp.documents.size());
+for(Integer i=0; i<resp.documents.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].reference -->  ' + resp.documents[i].reference);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].weight -->  ' + resp.documents[i].weight);
+    System.debug(logginglevel.INFO, 'resp.documents[' + i + '].index -->  ' + resp.documents[i].index);
+}
+
+==============================================================================================================
+
+Expand Container
+https://www.idolondemand.com/developer/apis/expandcontainer#try
+
+// GET request (String input) for "url" request
+IDOLApi api = new IDOLApi();
+IDOL.ExpandContainerRequest req = new IDOL.ExpandContainerRequest();
+req.source = IDOL.InputSource.url;
+req.input = 'https://www.idolondemand.com/sample-content/documents/example.zip';
+IDOL.ExpandContainerResponse resp = api.expandContainer(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.files.size() -->  ' + resp.files.size());
+for(Integer i=0; i<resp.files.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].name -->  ' + resp.files[i].name);
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].reference -->  ' + resp.files[i].reference);
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].size -->  ' + resp.files[i].size);
+}
+-------------------------------------------------
+// POST request (Attachment input) for "file" request
+// Attach a ZIP file in Salesforce for an Account, and use the ID below
+attachment att = [select id, name, body, contentType from attachment where id = '00P24000000Rw2a'];
+IDOLApi api = new IDOLApi();
+IDOL.ExpandContainerRequest req = new IDOL.ExpandContainerRequest();
+req.source = IDOL.InputSource.file;
+req.input = att;
+IDOL.ExpandContainerResponse resp = api.expandContainer(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.files.size() -->  ' + resp.files.size());
+for(Integer i=0; i<resp.files.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].name -->  ' + resp.files[i].name);
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].reference -->  ' + resp.files[i].reference);
+    System.debug(logginglevel.INFO, 'resp.files[' + i + '].size -->  ' + resp.files[i].size);
+}
+
+==============================================================================================================
+
+Add to Text Index
+https://www.idolondemand.com/developer/apis/addtotextindex#try
+
+// POST request (String input) for "json" request
+// Create an index (i.e. "explore1") before using this code
+IDOLApi api = new IDOLApi();
+IDOL.AddToTextIndexRequest req = new IDOL.AddToTextIndexRequest();
+req.source = IDOL.InputSource.json;
+req.input =
+    '{' +
+    '   "document" :' +
+    '   [' +
+    '      {' +
+    '         "title" : "This is my document",' +
+    '         "reference" : "mydoc11",' +
+    '         "myfield" : ["a value"],' +
+    '         "content" : "A large block of text, which makes up the main body of the document."' +
+    '      }, {' +
+    '         "title" : "My Other document",' +
+    '         "reference" : "mydoc12",' +
+    '         "content" : "This document is about something else"' +
+    '      }' +
+    '   ]' +
+    '}';
+req.index = 'explore1';
+IDOL.AddToTextIndexResponse resp = api.addToTextIndex(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.references.size() -->  ' + resp.references.size());
+for(Integer i=0; i<resp.references.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.references[' + i + '].id -->  ' + resp.references[i].id);
+    System.debug(logginglevel.INFO, 'resp.references[' + i + '].reference -->  ' + resp.references[i].reference);
+}
+-------------------------------------------------
+// POST request (String input) for "json" request
+// Create an index (i.e. "explore1") before using this code
+IDOLApi api = new IDOLApi();
+IDOL.AddToTextIndexRequest req = new IDOL.AddToTextIndexRequest();
+req.source = IDOL.InputSource.json;
+IDOL.AddToTextIndexDocument document = new IDOL.AddToTextIndexDocument();
+document.title = 'This is my document';
+document.reference = 'mydoc11';
+document.content = 'This document is about something special';
+IDOL.AddToTextIndexDocument[] documents = new IDOL.AddToTextIndexDocument[] {document};
+IDOL.AddToTextIndexDocumentInput documentInput = new IDOL.AddToTextIndexDocumentInput();
+documentInput.documents = documents;
+req.input = documentInput;
+req.index = 'explore1';
+IDOL.AddToTextIndexResponse resp = api.addToTextIndex(req);
+// System.debug(logginglevel.INFO, 'resp -->  ' + resp);
+System.debug(logginglevel.INFO, 'resp.references.size() -->  ' + resp.references.size());
+for(Integer i=0; i<resp.references.size(); i++) {
+    System.debug(logginglevel.INFO, 'resp.references[' + i + '].id -->  ' + resp.references[i].id);
+    System.debug(logginglevel.INFO, 'resp.references[' + i + '].reference -->  ' + resp.references[i].reference);
+}
+
+==============================================================================================================
