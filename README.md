@@ -1,3 +1,5 @@
+**Note:** this repo is outdated. Please see [this repo](https://github.com/HPE-Haven-OnDemand/havenondemand-salesforce).
+
 # Installation
 
 ### Build.properties
@@ -73,7 +75,7 @@ System.debug(logginglevel.INFO, 'resp.positive.size() -->  ' + resp.positive.siz
 
 **Files**
 
-Existing Attachment example 
+Existing Attachment example
 
 ```
 Attachment att = [select id, name, body, contentType from attachment where id = 'id'];
@@ -99,7 +101,7 @@ req.source = IDOL.InputSource.url;
 req.input = 'https://www.idolondemand.com/sample-content/images/aviva.jpg';
 ```
 
-**json** 
+**json**
 
 For example when adding documents
 
